@@ -42,13 +42,17 @@ async def _save_images(attachments: list[Attachment]):
     #  1. Create DIAL bucket client
     #  2. Iterate through Images from attachments, download them and then save here
     #  3. Print confirmation that image has been saved locally
-     async with DialBucketClient(
+    async with DialBucketClient(
         api_key=API_KEY,
         base_url=DIAL_URL
     ) as bucket_client:
         for attachment in attachments:
-            image_response = await bucket_client.get_file(attachment.url)
-            image_bytes = image_response.read()
+            try:
+                image_bytes = await bucket_client.get_file(attachment.url)
+            except Exception as exc:
+                print(f"Failed to download {attachment.url}: {exc}")
+                continue
+
             file_name = f"generated_image_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
             with open(file_name, "wb") as image_file:
                 image_file.write(image_bytes)

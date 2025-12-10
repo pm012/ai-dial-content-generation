@@ -12,9 +12,12 @@ class DialBucketClient:
         self._client: httpx.AsyncClient | None = None
 
     async def __aenter__(self):
+        # Increase timeouts to allow downloading larger image files
+        timeout = httpx.Timeout(60.0, connect=10.0)
         self._client = httpx.AsyncClient(
             base_url=self.base_url,
             headers={'Api-Key': self.api_key},
+            timeout=timeout,
         )
         return self
 
