@@ -49,7 +49,10 @@ def start() -> None:
                     ),
                     ImgContent(
                         image_url=ImgUrl(
-                            url=f"data:image/png;base64,{base64_image}"
+                            #try with base64 encoded image
+                            #url=f"data:image/png;base64,{base64_image}"
+                            #try implement with URL
+                            url="https://a-z-animals.com/media/2019/11/Elephant-male-1024x535.jpg"
                         )
                     )
                 ]
@@ -57,5 +60,5 @@ def start() -> None:
         ]
     )
 
-    
+
 start()
